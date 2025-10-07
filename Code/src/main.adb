@@ -1,27 +1,80 @@
-with MicroBit.Console; use MicroBit.Console;
-use MicroBit;
--- USN PROJECT TEMPLATE INTELLIGENT REAL-TIME SYSTEMS
--- Project name: [project name]
--- Project members: [name, name, .. ]
+------------------------------------------------------------------------------
+--                                                                          --
+--                       Copyright (C) 2019, AdaCore                        --
+--                                                                          --
+--  Redistribution and use in source and binary forms, with or without      --
+--  modification, are permitted provided that the following conditions are  --
+--  met:                                                                    --
+--     1. Redistributions of source code must retain the above copyright    --
+--        notice, this list of conditions and the following disclaimer.     --
+--     2. Redistributions in binary form must reproduce the above copyright --
+--        notice, this list of conditions and the following disclaimer in   --
+--        the documentation and/or other materials provided with the        --
+--        distribution.                                                     --
+--     3. Neither the name of the copyright holder nor the names of its     --
+--        contributors may be used to endorse or promote products derived   --
+--        from this software without specific prior written permission.     --
+--                                                                          --
+--   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS    --
+--   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT      --
+--   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR  --
+--   A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT   --
+--   HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, --
+--   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT       --
+--   LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,  --
+--   DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY  --
+--   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT    --
+--   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  --
+--   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.   --
+--                                                                          --
+------------------------------------------------------------------------------
 
+with MicroBit.MotorDriver; use MicroBit.MotorDriver; --using the procedures defined here
+with DFR0548;  -- using the types defined here
 
---This is a project template for a Jorvik profile (a less restrictive Ravenscar) for the MicroBit v2 such that we have a language supported real-time OS for embedded targets
---It requires the nRF52833 Jorvik runtime files. They can be found in the folder "runtime profiles" and need to be copied to your earm-eabi compiler toolchain
---In future version of GNATstudio this profile is automatically available and this step can be skipped (for status see: https://github.com/AdaCore/bb-runtimes/pull/67)
+with MicroBit.Console; use MicroBit.Console; -- for serial port communication
+use MicroBit; --for pin names
 
---Check out the many examples in the ADL for the MicroBit v2 to see:
---  1) How the various drivers can be used like the accelerometer,speaker  or wireless communication via radio
---  2) How ADA features like the Math library and Bounded_Vectors (Containers) can be used
---  3) How to structure your Ada tasks with a protected object to synchronize data or with entries to synchronize flow
---  4) How to perform a execution time analysis
---  5) How to integrate your Ada project with a Unity project over USB
-
--- Open a View > Cross Platforms > Serial Ports to see Put_Line output. Set the baud rate to 115.200
-procedure Main with Priority => 0 is
+procedure Main is
 
 begin
-   Put_Line (" <-- The zero means: Let's get started...");
+   MotorDriver.Servo(1,90);
+   delay 1.0; -- equivalent of Time.Sleep(1000) = 1 second
+
    loop
-      null;
+      -- DEMONSTRATION ROUTINE 4 MOTORS (useful for checking your wiring)
+      MotorDriver.Drive(Forward,(4095,0,0,0)); --right front wheel to M4
+      Console.Put_Line("RF");
+      delay 1.0;
+      MotorDriver.Drive(Forward,(0,4095,0,0)); --right back wheel to M3
+      Console.Put_Line("RB");
+      delay 1.0;
+      MotorDriver.Drive(Forward,(0,0,4095,0)); --left front wheel to M2
+      Console.Put_Line("LF");
+      delay 1.0;
+      MotorDriver.Drive(Forward,(0,0,0,4095)); --left back wheel to M1
+      Console.Put_Line("LB");
+      delay 1.0;
+      MotorDriver.Drive(Stop);
+
+      -- DEMONSTRATION ROUTINE SERVO
+      for I in reverse DFR0548.Degrees range 0..90 loop
+         MotorDriver.Servo(1,I);
+          delay 0.02; --20 ms
+      end loop;
+
+      for I in DFR0548.Degrees range 90..180 loop
+         MotorDriver.Servo(1,I);
+         delay 0.02; --20 ms
+      end loop;
+
+      for I in reverse DFR0548.Degrees range 90..180 loop
+         MotorDriver.Servo(1,I);
+          delay 0.02; --20 ms
+      end loop;
+
    end loop;
 end Main;
+
+
+

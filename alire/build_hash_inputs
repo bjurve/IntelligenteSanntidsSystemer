@@ -1,0 +1,5 @@
+dependency:libhello=1.0.1=fe569b2389cda75103dd92e2c3dc1d3e3a0fa7df5ca74eb36ea31dd8c917cfc7
+external:HELLO_LIBRARY_TYPE=default
+external:LIBRARY_TYPE=default
+profile:hello=DEVELOPMENT
+switches:hello=-Og,-fdata-sections,-ffunction-sections,-g,-gnatVa,-gnatW8,-gnatw.X,-gnatwa,-gnaty-d,-gnaty3,-gnatyA,-gnatyB,-gnatyI,-gnatyO,-gnatyS,-gnatya,-gnatyb,-gnatyc,-gnatye,-gnatyf,-gnatyh,-gnatyi,-gnatyk,-gnatyl,-gnatym,-gnatyn,-gnatyp,-gnatyr,-gnatyt,-gnatyu,-gnatyx
