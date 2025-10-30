@@ -1,9 +1,12 @@
-with Drive_Task; use Drive_Task;
+with Ultrasonic;
+with Motors;
+with Control;
+
 
 procedure Main is
 begin
-   -- Drive_Task.Motor_Control starter automatisk ved oppstart
+   -- Starter alle tasks ved å referere til pakkene
    loop
-      delay 10.0;
+      delay 1.00; -- hovedprogram gjør ingenting, alt skjer i tasks
    end loop;
 end Main;
