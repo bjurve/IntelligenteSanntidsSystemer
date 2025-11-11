@@ -15,7 +15,7 @@ package body Types is
    end Range_Data;
 
 
-   protected body Motor_cmd is
+   protected body Motor_Cmd is
       procedure Set(Left, Right : Integer) is
       begin
          L := Left;
@@ -32,5 +32,5 @@ package body Types is
       begin
          return (L => L, R => R);
       end Get;
-   end Motor_cmd;
+   end Motor_Cmd;
 end Types;

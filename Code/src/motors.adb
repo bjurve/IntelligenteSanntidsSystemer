@@ -1,6 +1,9 @@
 with Ada.Real_Time; use Ada.Real_Time;
 with Types; use Types;
 with MicroBit.MotorDriver; use MicroBit.MotorDriver;
+with MicroBit.MotorDriver; use MicroBit.MotorDriver;
+with DFR0548;
+
 
 package body Motors is
    period : constant Time_Span := Milliseconds(20); -- motor oppdateres hvert 20 ms
@@ -16,22 +19,15 @@ package body Motors is
       Command.Stop;
    end Stop;
 
-      type Motor_Command_Type is record
-         L, R : Integer;
-      end record;
-
-
-
    task body Actuator_Task is
       Next : Time := Clock; -- neste kjøringstid
-      Motor_Command : Motor_Command_Type;
+      Motor_Command : Motor_Result;
 
    begin
       loop
          Motor_Command := Command.Get;  -- leser begge kanalene samtidig
          --koble til motor-driveren her:
-         Set_Left_PWM(Motor_Command.L);
-         Set_Right_PWM(Motor_Command.R);
+         Drive (Forward, (Motor_Command.R, Motor_Command.R, Motor_Command.L, Motor_Command.L));
 
 
 
