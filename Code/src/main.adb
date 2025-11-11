@@ -1,12 +1,14 @@
-with Ultrasonic;
-with Motors;
-with Control;
-
+with Ada.Real_Time;  use Ada.Real_Time;
+with Sensor_Task;
+with Drive_Task;
+with Decision_Task;
 
 procedure Main is
+   Period : constant Time_Span := Seconds (1);
+   Next   : Time := Clock;
 begin
-   -- Starter alle tasks ved å referere til pakkene
    loop
-      delay 1.00; -- hovedprogram gjør ingenting, alt skjer i tasks
+      Next := Next + Period;
+      delay until Next;
    end loop;
 end Main;
