@@ -13,10 +13,6 @@ package body Decision_Task is
    State : State_Type := Moving_Forward;
    Phase_End : Time := Clock;
 
-
-
-
-
    task body Decision is
       Period : constant Time_Span := Milliseconds (50);
       Next   : Time := Clock;
