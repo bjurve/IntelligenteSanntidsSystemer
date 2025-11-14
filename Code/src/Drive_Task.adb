@@ -3,6 +3,7 @@ with MicroBit.MotorDriver; use MicroBit.MotorDriver;
 with Ada.Real_Time; use Ada.Real_Time;
 with System.Fat_Gen;
 with System.Val_Util;
+with MicroBit.Console; use MicroBit.Console;
 
 package body Drive_Task is
 
@@ -30,7 +31,6 @@ package body Drive_Task is
       Command_Storage.Set (Cmd);
    end Set_Command;
 
-
    task body Motor_Control is
       Speed  : constant := 3000;
       Period : constant Time_Span := Milliseconds (20);
@@ -38,6 +38,7 @@ package body Drive_Task is
       Cmd    : Movement_Command;
    begin
       loop
+
          Cmd := Command_Storage.Get;
 
          case Cmd is
@@ -53,9 +54,10 @@ package body Drive_Task is
                Drive (Backward, (Speed, Speed, Speed, Speed));
             when Stop =>
                Drive (Forward, (-speed / 3, -speed / 3, -speed / 3, -speed / 3));
-               delay until Clock + Milliseconds (120);
+                delay until Clock + Milliseconds (120);
                Drive (Stop, (0, 0, 0, 0));
          end case;
+
 
          Next := Next + Period;
          delay until Next;

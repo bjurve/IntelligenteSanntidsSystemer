@@ -2,7 +2,7 @@ with Sensor_Task;    use Sensor_Task;
 with Drive_Task;     use Drive_Task;
 with Ada.Real_Time;  use Ada.Real_Time;
 with System;
-
+with MicroBit.Console; use MicroBit.Console;
 package body Decision_Task is
 
    Stop_cm    : constant Integer:= 15;
@@ -19,6 +19,8 @@ package body Decision_Task is
       L, R   : Integer;
    begin
       loop
+
+
 
          L := Left_Distance;  if L < 1 then L := 300; end if;
          R := Right_Distance; if R < 1 then R := 300; end if;

@@ -32,10 +32,8 @@ package body Sensor_Task is
    function Right_Distance return Integer is (Distances.Right);
 
 
-
-
    task body Sensor is
-      Period : constant Time_Span := Milliseconds (200);
+      Period : constant Time_Span := Milliseconds (100);
       Next   : Time := Clock;
    begin
       loop
